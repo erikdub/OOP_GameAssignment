@@ -15,6 +15,7 @@ int lines;
 int points;
 int level;
 int break_area[][][];
+int break_blocks[][];
 
 void setup()
 {

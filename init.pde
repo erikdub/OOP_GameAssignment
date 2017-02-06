@@ -23,7 +23,7 @@ void init()
   lines = 0;
   points = 0;
   level = 0;
-  break_area = new int[40[40][10];
+  break_area = new int[40][40][10];
   
   define_blocks();
 }
