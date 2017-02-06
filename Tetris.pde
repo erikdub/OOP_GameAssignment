@@ -1,9 +1,15 @@
+/*
+  Name: Erik Stenberg
+  Student No: C15495352
+  Program: Tetris Game for OOP Assignment 2(Game Assignment)
+*/
+
+//Global Variables Created
 int tet_area[][];
 int new_tet_area[][];
 int tet_spd;
 int tet_queue[];
 int block_area[][];
-
 
 void setup()
 {
