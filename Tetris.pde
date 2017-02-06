@@ -1,6 +1,9 @@
 int tet_area[][];
 int new_tet_area[][];
+int tet_spd;
 int tet_queue[];
+int block_area[][];
+
 
 void setup()
 {
