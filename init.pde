@@ -19,4 +19,11 @@ void init()
     block_area[i][2] = 8;
   }
   
+  livesLeft = 0;
+  lines = 0;
+  points = 0;
+  level = 0;
+  break_area = new int[40[40][10];
+  
+  define_blocks();
 }

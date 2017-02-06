@@ -10,6 +10,11 @@ int new_tet_area[][];
 int tet_spd;
 int tet_queue[];
 int block_area[][];
+int livesLeft;
+int lines;
+int points;
+int level;
+int break_area[][][];
 
 void setup()
 {
