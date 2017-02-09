@@ -20,10 +20,11 @@ int break_blocks[][];
 void setup()
 {
   size(1500, 900, P3D);
+  frameRate(60);
   init();
 }
 
 void draw()
 {
-  frameRate(60);
+  
 }
