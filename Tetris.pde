@@ -21,15 +21,28 @@ int fillposy = 0;
 int breaktetrx = 0;
 int breaktetry = 0;
 int breaktetrnumber = 0;
+boolean start = true;
+boolean gameover = false;
+int breaktetro[][];
+PFont = font;
 
 void setup()
 {
   size(1500, 900, P3D);
   frameRate(60);
+  font = loadFont("OCRAExtended-48.vlw");
   init();
 }
 
 void draw()
 {
-  startgame();
+  if( start == true )
+  {
+    startgame();
+  }
+  if( gameover == true )
+  {
+    gameover();
+  }
+  
 }

@@ -17,10 +17,10 @@ void break_level()
 
 void fillbreakfield(int breaktetrx, int breaktetry, int breaktetrnumber) {
   for (int i = 1; i < 5; i++) {
-    breakarea[breaktetrx+breaktetrominos[breaktetrnumber][i*2-1]][breaktetry+breaktetrominos[breaktetrnumber][i*2]][9] = breaktetrnumber;
+    break_area[breaktetrx+breaktetro[breaktetrnumber][i*2-1]][breaktetry+breaktetro[breaktetrnumber][i*2]][9] = breaktetrnumber;
     for (int j = 1; j < 5; j++) {
-      breakfield[breaktetrx+breaktetrominos[breaktetrnumber][i*2-1]][breaktetry+breaktetrominos[breaktetrnumber][i*2]][j*2-1] = breaktetrx + breaktetrominos[breaktetrnumber][2*j-1];
-      breakfield[breaktetrx+breaktetrominos[breaktetrnumber][i*2-1]][breaktetry+breaktetrominos[breaktetrnumber][i*2]][j*2] = breaktetry + breaktetrominos[breaktetrnumber][2*j];
+      break_area[breaktetrx+breaktetro[breaktetrnumber][i*2-1]][breaktetry+breaktetro[breaktetrnumber][i*2]][j*2-1] = breaktetrx + breaktetro[breaktetrnumber][2*j-1];
+      break_area[breaktetrx+breaktetro[breaktetrnumber][i*2-1]][breaktetry+breaktetro[breaktetrnumber][i*2]][j*2] = breaktetry + breaktetro[breaktetrnumber][2*j];
     }
   }
 }
