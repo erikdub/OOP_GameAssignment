@@ -16,6 +16,11 @@ int points;
 int level;
 int break_area[][][];
 int break_blocks[][];
+int fillposx = 0;
+int fillposy = 0;
+int breaktetrx = 0;
+int breaktetry = 0;
+int breaktetrnumber = 0;
 
 void setup()
 {
