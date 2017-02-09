@@ -31,5 +31,5 @@ void setup()
 
 void draw()
 {
-  
+  startgame();
 }
