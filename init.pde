@@ -1,23 +1,23 @@
 void init() {
 
-  tet_area = new int[4][4];
-  new_tet_area = new int[4][4];
-  tet_queue = new int[100];
-  tet_spd = 30;
-  block_area = new int[16][26];
+  tetrfield = new int[4][4];
+  tetrfieldnew = new int[4][4];
+  tetrqueue = new int[100];
+  tetrspeed = 30;
+  playfield = new int[16][26];
 
   for (int i = 0; i < 22; i++) {
-    block_area[2][i]=8;
-    block_area[13][i]=8;
+    playfield[2][i]=8;
+    playfield[13][i]=8;
   }
   for (int i = 0; i < 13; i++) {
-    block_area[i][2]=8;
+    playfield[i][2]=8;
   }
   lines = 0;
   points = 0;
-  livesLeft = 3;
+  lives = 3;
   level = 0;
-  break_area = new int[40][40][10];
+  breakfield = new int[40][40][10];
   definetetrominos();
   dobreaklevel();
 

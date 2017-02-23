@@ -3,7 +3,7 @@ void tetrislogic() {
     tetrcreate();
   }
   timer = millis();
-  if ((timer-timernew)/15 > tet_spd) {
+  if ((timer-timernew)/15 > tetrspeed) {
     timernew = millis();
     tetremove();
     tetrdrop = true;
@@ -16,8 +16,8 @@ void tetrislogic() {
 void tetremove() {
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j < 4; j++) {
-      if (tet_area[i][j] > 0) {
-        block_area[tetrxpos+i][tetrypos+j] = 0;
+      if (tetrfield[i][j] > 0) {  
+        playfield[tetrxpos+i][tetrypos+j] = 0;
       }
     }
   }
@@ -32,7 +32,7 @@ void tetrcheck() {
 
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j < 4; j++) {
-      tetrsum = tetrsum + block_area[tetrxpos+i][tetrypos+j] * new_tet_area[i][j];
+      tetrsum = tetrsum + playfield[tetrxpos+i][tetrypos+j] * tetrfieldnew[i][j];
     }
   }
   //print (tetrsum);
@@ -42,13 +42,13 @@ void tetrcheck() {
     left = false;
     for (int i = 0; i < 4; i++) {
       for (int j = 0; j < 4; j++) {
-        tet_area[i][j] = new_tet_area[i][j];
+        tetrfield[i][j] = tetrfieldnew[i][j];
       }
     }
   } else {
     for (int i = 0; i < 4; i++) {
       for (int j = 0; j < 4; j++) {
-        new_tet_area[i][j] = tet_area[i][j];
+        tetrfieldnew[i][j] = tetrfield[i][j];
       }
     }
 
@@ -82,29 +82,29 @@ void tetrcheck() {
 void tetrupdate() {
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j < 4; j++) {
-      if (tet_area[i][j] > 0) {
-        block_area[tetrxpos+i][tetrypos+j] = tetrnumber;
+      if (tetrfield[i][j] > 0) {  
+        playfield[tetrxpos+i][tetrypos+j] = tetrnumber;
       }
     }
   }
 }
 
 void rotateleft() {
-  new_tet_area = new int[4][4];
+  tetrfieldnew = new int[4][4]; 
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j < 4; j++) {
-      new_tet_area[3-j][i] = tet_area[i][j];
+      tetrfieldnew[3-j][i] = tetrfield[i][j];
     }
   }
   tetrcheck();
 }
 
-void checkblock_area() {
+void checkplayfield() {
   tetrlinesatonce = 0;
   for (int i = 20; i > 2; i--) {
     tetrsum = 1;
     for (int j = 3; j < 13; j++) {
-      tetrsum = tetrsum * block_area[j][i];
+      tetrsum = tetrsum * playfield[j][i];
     }
     if (tetrsum > 0) {
       removeline(i);
@@ -112,16 +112,16 @@ void checkblock_area() {
       tetrlinesatonce++;
     }
   }
-  points = points + 10*tetrlinesatonce*tetrlinesatonce*(31-tet_spd);
+  points = points + 10*tetrlinesatonce*tetrlinesatonce*(31-tetrspeed);
   if (tetrlinesatonce == 4) {
-    livesLeft++;
+    lives++;
   }
 }
 
 void removeline(int linenumber) {
   for (int i = linenumber; i < 22; i++) {
     for (int j = 3; j < 13; j++) {
-      block_area[j][i] = block_area[j][i+1];
+      playfield[j][i] = playfield[j][i+1];
     }
   }
 }
@@ -130,8 +130,8 @@ void removeline(int linenumber) {
 void checkgameover() {
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j < 4; j++) {
-      if (tet_area[i][j] > 0) {
-        sum = sum + block_area[tetrxpos+i][tetrypos+j];
+      if (tetrfield[i][j] > 0) {    
+        sum = sum + playfield[tetrxpos+i][tetrypos+j];
       }
     }
   }
@@ -142,46 +142,46 @@ void checkgameover() {
 }
 
 void tetrcreate() {
-  checkblock_area();
+  checkplayfield();
   drop = false;
   timernew = 0;
-  tet_spd = 30-queuelength;
-  if (tet_spd < 5) {
-    tet_spd = 5;
+  tetrspeed = 30-queuelength;
+  if (tetrspeed < 5) {
+    tetrspeed = 5;
   }
 
   tetrxpos = 5;
   tetrypos = 19;
   //tetrnumber = int(random(1, 8));
 
-  if (tet_queue[1] == 0) {
+  if (tetrqueue[1] == 0) {
     tetrnumber = 0;
   }
-  if ((tet_queue[1] == 1) || (tet_queue[1] == 2)) {
+  if ((tetrqueue[1] == 1) || (tetrqueue[1] == 2)) {
     tetrnumber = 1;
   }
-  if (tet_queue[1] == 3) {
+  if (tetrqueue[1] == 3) {
     tetrnumber = 7;
   }
-  if ((tet_queue[1] > 3) && (tet_queue[1] < 8)) {
+  if ((tetrqueue[1] > 3) && (tetrqueue[1] < 8)) {
     tetrnumber = 2;
   }
-  if ((tet_queue[1] == 8) || (tet_queue[1] == 9)) {
+  if ((tetrqueue[1] == 8) || (tetrqueue[1] == 9)) {
     tetrnumber = 6;
   }
-  if ((tet_queue[1] == 10) || (tet_queue[1] == 11)) {
+  if ((tetrqueue[1] == 10) || (tetrqueue[1] == 11)) {
     tetrnumber = 5;
   }
-  if ((tet_queue[1] > 11) && (tet_queue[1] < 16)) {
+  if ((tetrqueue[1] > 11) && (tetrqueue[1] < 16)) {
     tetrnumber = 4;
   }
-  if ((tet_queue[1] > 15) && (tet_queue[1] < 20)) {
+  if ((tetrqueue[1] > 15) && (tetrqueue[1] < 20)) {
     tetrnumber = 3;
   }
   if (tetrnumber > 0) {
     tetractive = true;
     for (int i = 2; i < 100; i++) {
-      tet_queue[i-1]=tet_queue[i];
+      tetrqueue[i-1]=tetrqueue[i];
     };
     queuelength--;
     if (queuelength < 1) {
@@ -189,56 +189,56 @@ void tetrcreate() {
     }
   }
 
-  tet_area = new int[4][4];
+  tetrfield = new int[4][4];
 
   switch(tetrnumber) {
   case 1:
-    tet_area[0][1] = tetrnumber;
-    tet_area[1][1] = tetrnumber;
-    tet_area[2][1] = tetrnumber;
-    tet_area[3][1] = tetrnumber;
-    break;
+    tetrfield[0][1] = tetrnumber;
+    tetrfield[1][1] = tetrnumber;
+    tetrfield[2][1] = tetrnumber;
+    tetrfield[3][1] = tetrnumber;
+    break;  
   case 2:
-    tet_area[0][1] = tetrnumber;
-    tet_area[1][1] = tetrnumber;
-    tet_area[2][1] = tetrnumber;
-    tet_area[1][2] = tetrnumber;
+    tetrfield[0][1] = tetrnumber;
+    tetrfield[1][1] = tetrnumber;
+    tetrfield[2][1] = tetrnumber;
+    tetrfield[1][2] = tetrnumber;
     break;
   case 3:
-    tet_area[0][1] = tetrnumber;
-    tet_area[1][1] = tetrnumber;
-    tet_area[2][1] = tetrnumber;
-    tet_area[0][2] = tetrnumber;
-    break;
+    tetrfield[0][1] = tetrnumber;
+    tetrfield[1][1] = tetrnumber;
+    tetrfield[2][1] = tetrnumber;
+    tetrfield[0][2] = tetrnumber;
+    break;  
   case 4:
-    tet_area[0][1] = tetrnumber;
-    tet_area[1][1] = tetrnumber;
-    tet_area[2][1] = tetrnumber;
-    tet_area[2][2] = tetrnumber;
+    tetrfield[0][1] = tetrnumber;
+    tetrfield[1][1] = tetrnumber;
+    tetrfield[2][1] = tetrnumber;
+    tetrfield[2][2] = tetrnumber;
     break;
   case 5:
-    tet_area[1][1] = tetrnumber;
-    tet_area[2][1] = tetrnumber;
-    tet_area[0][2] = tetrnumber;
-    tet_area[1][2] = tetrnumber;
+    tetrfield[1][1] = tetrnumber;
+    tetrfield[2][1] = tetrnumber;
+    tetrfield[0][2] = tetrnumber;
+    tetrfield[1][2] = tetrnumber;
     break;
   case 6:
-    tet_area[0][1] = tetrnumber;
-    tet_area[1][1] = tetrnumber;
-    tet_area[1][2] = tetrnumber;
-    tet_area[2][2] = tetrnumber;
-    break;
+    tetrfield[0][1] = tetrnumber;
+    tetrfield[1][1] = tetrnumber;
+    tetrfield[1][2] = tetrnumber;
+    tetrfield[2][2] = tetrnumber;
+    break;  
   case 7:
-    tet_area[1][1] = tetrnumber;
-    tet_area[2][1] = tetrnumber;
-    tet_area[1][2] = tetrnumber;
-    tet_area[2][2] = tetrnumber;
+    tetrfield[1][1] = tetrnumber;
+    tetrfield[2][1] = tetrnumber;
+    tetrfield[1][2] = tetrnumber;
+    tetrfield[2][2] = tetrnumber;
     break;
   }
 
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j < 4; j++) {
-      new_tet_area[i][j] = tet_area[i][j];
+      tetrfieldnew[i][j] = tetrfield[i][j];
     }
   }
 

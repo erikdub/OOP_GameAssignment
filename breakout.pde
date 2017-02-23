@@ -40,8 +40,8 @@ void checkball() {
       breakballrefangle = 45;
       breakballxspeed = pow(sin(breakballrefangle/180*PI), 2)*breakballspeed;
       breakballyspeed = pow(cos(breakballrefangle/180*PI), 2)*breakballspeed;
-      livesLeft--;
-      if (livesLeft < 0) {
+      lives--;
+      if (lives < 0) {
         gameover = true;
       }
     }
@@ -56,11 +56,11 @@ void checkball() {
     breakcheckfieldx = int((20 + breakballx - breakedgeleft + breakcheckx)/20);
     breakcheckfieldy = int((20 + breakbally - breakedgetop + breakchecky)/20);
 
-    if (break_area[breakcheckfieldx][breakcheckfieldy][9] > 0) {
+    if (breakfield[breakcheckfieldx][breakcheckfieldy][9] > 0) {
 
-      filltetqueue(break_area[breakcheckfieldx][breakcheckfieldy][9]);
+      filltetqueue(breakfield[breakcheckfieldx][breakcheckfieldy][9]);
       for (int i = 1; i < 5; i++) {
-        break_area[break_area[breakcheckfieldx][breakcheckfieldy][i*2-1]][break_area[breakcheckfieldx][breakcheckfieldy][i*2]][9] = 0;
+        breakfield[breakfield[breakcheckfieldx][breakcheckfieldy][i*2-1]][breakfield[breakcheckfieldx][breakcheckfieldy][i*2]][9] = 0;
       }
       if ((k == 0) || (k == 4)) {
         breakballyspeed = -breakballyspeed;
@@ -83,17 +83,17 @@ void checkball() {
 
 void filltetqueue(int newqueue) {
   for (int i = 1; i < 100; i++) {
-    if (tet_queue[i] == 0) {
-      tet_queue[i] = newqueue;
+    if (tetrqueue[i] == 0) {
+      tetrqueue[i] = newqueue; 
       queuelength = i;
       newqueue = 0;
       break;
     };
   }
   if (drop == false) {
-    tet_spd = 30-(queuelength*2);
-    if (tet_spd < 5) {
-      tet_spd = 5;
+    tetrspeed = 30-(queuelength*2);
+    if (tetrspeed < 5) {
+      tetrspeed = 5;
     }
   }
 }
@@ -102,7 +102,7 @@ boolean checkwinstate() {
   int sum1 = 0;
   for (int i = 1; i < 31; i++) {
     for (int j = 1; j < 39; j++) {
-      sum1 = sum1 + break_area[j][i][9];
+      sum1 = sum1 + breakfield[j][i][9];
     }
   }
   if (sum1 > 0) {
@@ -115,93 +115,93 @@ boolean checkwinstate() {
 void dobreaklevel() {
   fillposx = 5;
   fillposy = 2;
-  fillbreak_area(1+fillposx, 1+fillposy, 18);
-  fillbreak_area(4+fillposx, 2+fillposy, 16);
-  fillbreak_area(3+fillposx, 1+fillposy, 9);
-  fillbreak_area(2+fillposx, 3+fillposy, 9);
+  fillbreakfield(1+fillposx, 1+fillposy, 18);
+  fillbreakfield(4+fillposx, 2+fillposy, 16);
+  fillbreakfield(3+fillposx, 1+fillposy, 9);
+  fillbreakfield(2+fillposx, 3+fillposy, 9);
 
   fillposx = 9;
   fillposy = 2;
-  fillbreak_area(1+fillposx, 1+fillposy, 1);
-  fillbreak_area(2+fillposx, 1+fillposy, 2);
-  fillbreak_area(6+fillposx, 1+fillposy, 9);
-  fillbreak_area(2+fillposx, 2+fillposy, 19);
-  fillbreak_area(2+fillposx, 3+fillposy, 3);
-  fillbreak_area(4+fillposx, 4+fillposy, 4);
-  fillbreak_area(6+fillposx, 3+fillposy, 11);
-  fillbreak_area(7+fillposx, 2+fillposy, 5);
-  fillbreak_area(8+fillposx, 1+fillposy, 19);
-  fillbreak_area(9+fillposx, 3+fillposy, 3);
+  fillbreakfield(1+fillposx, 1+fillposy, 1);
+  fillbreakfield(2+fillposx, 1+fillposy, 2);
+  fillbreakfield(6+fillposx, 1+fillposy, 9);
+  fillbreakfield(2+fillposx, 2+fillposy, 19);
+  fillbreakfield(2+fillposx, 3+fillposy, 3);
+  fillbreakfield(4+fillposx, 4+fillposy, 4);
+  fillbreakfield(6+fillposx, 3+fillposy, 11);
+  fillbreakfield(7+fillposx, 2+fillposy, 5);
+  fillbreakfield(8+fillposx, 1+fillposy, 19);
+  fillbreakfield(9+fillposx, 3+fillposy, 3);
 
   fillposx = 19;
   fillposy = 2;
-  fillbreak_area(1+fillposx, 1+fillposy, 13);
-  fillbreak_area(1+fillposx, 3+fillposy, 3);
-  fillbreak_area(2+fillposx, 2+fillposy, 5);
-  fillbreak_area(4+fillposx, 1+fillposy, 11);
-  fillbreak_area(6+fillposx, 1+fillposy, 2);
-  fillbreak_area(4+fillposx, 3+fillposy, 9);
-  fillbreak_area(5+fillposx, 4+fillposy, 4);
-  fillbreak_area(7+fillposx, 2+fillposy, 13);
-  fillbreak_area(10+fillposx, 1+fillposy, 1);
-  fillbreak_area(8+fillposx, 3+fillposy, 3);
+  fillbreakfield(1+fillposx, 1+fillposy, 13);
+  fillbreakfield(1+fillposx, 3+fillposy, 3);
+  fillbreakfield(2+fillposx, 2+fillposy, 5);
+  fillbreakfield(4+fillposx, 1+fillposy, 11);
+  fillbreakfield(6+fillposx, 1+fillposy, 2);
+  fillbreakfield(4+fillposx, 3+fillposy, 9);
+  fillbreakfield(5+fillposx, 4+fillposy, 4);
+  fillbreakfield(7+fillposx, 2+fillposy, 13);
+  fillbreakfield(10+fillposx, 1+fillposy, 1);
+  fillbreakfield(8+fillposx, 3+fillposy, 3);
 
   fillposx = 29;
   fillposy = 2;
-  fillbreak_area(1+fillposx, 1+fillposy, 11);
-  fillbreak_area(2+fillposx, 3+fillposy, 11);
-  fillbreak_area(3+fillposx, 1+fillposy, 14);
-  fillbreak_area(1+fillposx, 2+fillposy, 12);
+  fillbreakfield(1+fillposx, 1+fillposy, 11);
+  fillbreakfield(2+fillposx, 3+fillposy, 11);
+  fillbreakfield(3+fillposx, 1+fillposy, 14);
+  fillbreakfield(1+fillposx, 2+fillposy, 12);
 
 
   fillposx = 19;
   fillposy = 8;
-  fillbreak_area(1+fillposx, 1+fillposy, 18);
-  fillbreak_area(4+fillposx, 2+fillposy, 16);
-  fillbreak_area(3+fillposx, 1+fillposy, 9);
-  fillbreak_area(2+fillposx, 3+fillposy, 9);
+  fillbreakfield(1+fillposx, 1+fillposy, 18);
+  fillbreakfield(4+fillposx, 2+fillposy, 16);
+  fillbreakfield(3+fillposx, 1+fillposy, 9);
+  fillbreakfield(2+fillposx, 3+fillposy, 9);
 
   fillposx = 23;
   fillposy = 8;
-  fillbreak_area(1+fillposx, 1+fillposy, 1);
-  fillbreak_area(2+fillposx, 1+fillposy, 2);
-  fillbreak_area(6+fillposx, 1+fillposy, 9);
-  fillbreak_area(2+fillposx, 2+fillposy, 19);
-  fillbreak_area(2+fillposx, 3+fillposy, 3);
-  fillbreak_area(4+fillposx, 4+fillposy, 4);
-  fillbreak_area(6+fillposx, 3+fillposy, 11);
-  fillbreak_area(7+fillposx, 2+fillposy, 5);
-  fillbreak_area(8+fillposx, 1+fillposy, 19);
-  fillbreak_area(9+fillposx, 3+fillposy, 3);
+  fillbreakfield(1+fillposx, 1+fillposy, 1);
+  fillbreakfield(2+fillposx, 1+fillposy, 2);
+  fillbreakfield(6+fillposx, 1+fillposy, 9);
+  fillbreakfield(2+fillposx, 2+fillposy, 19);
+  fillbreakfield(2+fillposx, 3+fillposy, 3);
+  fillbreakfield(4+fillposx, 4+fillposy, 4);
+  fillbreakfield(6+fillposx, 3+fillposy, 11);
+  fillbreakfield(7+fillposx, 2+fillposy, 5);
+  fillbreakfield(8+fillposx, 1+fillposy, 19);
+  fillbreakfield(9+fillposx, 3+fillposy, 3);
 
   fillposx = 5;
   fillposy = 8;
-  fillbreak_area(1+fillposx, 1+fillposy, 13);
-  fillbreak_area(1+fillposx, 3+fillposy, 3);
-  fillbreak_area(2+fillposx, 2+fillposy, 5);
-  fillbreak_area(4+fillposx, 1+fillposy, 11);
-  fillbreak_area(6+fillposx, 1+fillposy, 2);
-  fillbreak_area(4+fillposx, 3+fillposy, 9);
-  fillbreak_area(5+fillposx, 4+fillposy, 4);
-  fillbreak_area(7+fillposx, 2+fillposy, 13);
-  fillbreak_area(10+fillposx, 1+fillposy, 1);
-  fillbreak_area(8+fillposx, 3+fillposy, 3);
+  fillbreakfield(1+fillposx, 1+fillposy, 13);
+  fillbreakfield(1+fillposx, 3+fillposy, 3);
+  fillbreakfield(2+fillposx, 2+fillposy, 5);
+  fillbreakfield(4+fillposx, 1+fillposy, 11);
+  fillbreakfield(6+fillposx, 1+fillposy, 2);
+  fillbreakfield(4+fillposx, 3+fillposy, 9);
+  fillbreakfield(5+fillposx, 4+fillposy, 4);
+  fillbreakfield(7+fillposx, 2+fillposy, 13);
+  fillbreakfield(10+fillposx, 1+fillposy, 1);
+  fillbreakfield(8+fillposx, 3+fillposy, 3);
 
   fillposx = 15;
   fillposy = 8;
-  fillbreak_area(1+fillposx, 1+fillposy, 11);
-  fillbreak_area(2+fillposx, 3+fillposy, 11);
-  fillbreak_area(3+fillposx, 1+fillposy, 14);
-  fillbreak_area(1+fillposx, 2+fillposy, 12);
+  fillbreakfield(1+fillposx, 1+fillposy, 11);
+  fillbreakfield(2+fillposx, 3+fillposy, 11);
+  fillbreakfield(3+fillposx, 1+fillposy, 14);
+  fillbreakfield(1+fillposx, 2+fillposy, 12);
 }
 
 
-void fillbreak_area(int breaktetrx, int breaktetry, int breaktetrnumber) {
+void fillbreakfield(int breaktetrx, int breaktetry, int breaktetrnumber) {
   for (int i = 1; i < 5; i++) {
-    break_area[breaktetrx+breaktetrominos[breaktetrnumber][i*2-1]][breaktetry+breaktetrominos[breaktetrnumber][i*2]][9] = breaktetrnumber;
+    breakfield[breaktetrx+breaktetrominos[breaktetrnumber][i*2-1]][breaktetry+breaktetrominos[breaktetrnumber][i*2]][9] = breaktetrnumber;
     for (int j = 1; j < 5; j++) {
-      break_area[breaktetrx+breaktetrominos[breaktetrnumber][i*2-1]][breaktetry+breaktetrominos[breaktetrnumber][i*2]][j*2-1] = breaktetrx + breaktetrominos[breaktetrnumber][2*j-1];
-      break_area[breaktetrx+breaktetrominos[breaktetrnumber][i*2-1]][breaktetry+breaktetrominos[breaktetrnumber][i*2]][j*2] = breaktetry + breaktetrominos[breaktetrnumber][2*j];
+      breakfield[breaktetrx+breaktetrominos[breaktetrnumber][i*2-1]][breaktetry+breaktetrominos[breaktetrnumber][i*2]][j*2-1] = breaktetrx + breaktetrominos[breaktetrnumber][2*j-1];
+      breakfield[breaktetrx+breaktetrominos[breaktetrnumber][i*2-1]][breaktetry+breaktetrominos[breaktetrnumber][i*2]][j*2] = breaktetry + breaktetrominos[breaktetrnumber][2*j];
     }
   }
 }
@@ -210,4 +210,4 @@ int signum(float f) {
   if (f > 0) return 1;
   if (f < 0) return -1;
   return 0;
-}
+} 

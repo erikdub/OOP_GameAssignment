@@ -5,19 +5,19 @@
 */
 
 //Global Variables Created
-int [][] block_area;
-int [][] tet_area;
-int [][] new_tet_area;
-int [][][] break_area;
+int [][] playfield;
+int [][] tetrfield;
+int [][] tetrfieldnew;
+int [][][] breakfield;
 int [][] breaktetrominos;
-int [] tet_queue;
+int [] tetrqueue;
 int tetrxpos = 0;
 int tetrypos = 0;
 int tetrcol = 0;
 int tetrnumber = 0;
 int tetrnumberdraw = 0;
 int tetrdrawoffset = 0;
-int tet_spd = 30;
+int tetrspeed = 30;
 int tetrdropspeed = 2;
 int tetrlevel = 0;
 int timer = 0;
@@ -28,7 +28,7 @@ int queuelength = 0;
 int sum = 0;
 int points = 0;
 int lines = 0;
-int livesLeft = 0;
+int lives = 0;
 int level = 0;
 boolean tetractive = false;
 boolean tetrdrop = false;
@@ -55,8 +55,8 @@ int breakedgeleft = 600;
 int breakedgetop = 50;
 int breakpadx = 0;
 int breakpady = 0;
-int break_areamin = 0;
-int break_areamax = 0;
+int breakfieldmin = 0;
+int breakfieldmax = 0;
 int breakpadwidth = 80;
 int breaktetrx = 0;
 int breaktetry = 0;
@@ -95,12 +95,12 @@ void draw() {
 
 void displaytetris() {
 
-  //block_area
+  //Playfield
   stroke(0);
   for (int i = 2; i < 22; i++) {
     for (int j = 2; j < 14; j++) {
-      if (block_area[j][i] > 0) {
-        chosecolor(block_area[j][i]);
+      if (playfield[j][i] > 0) {
+        chosecolor(playfield[j][i]);
         pushMatrix();
         translate(-30+j*34, 800-i*34);
         box(33,33,10);
@@ -111,39 +111,39 @@ void displaytetris() {
 
   //Queue
   for (int i = 1; i < 6; i++) {
-    chosecolorbreak(tet_queue[1]);
+    chosecolorbreak(tetrqueue[1]);
 
-    if (tet_queue[i] > 0) {
-      if ((tet_queue[i] == 1) || (tet_queue[i] == 2)) {
+    if (tetrqueue[i] > 0) {
+      if ((tetrqueue[i] == 1) || (tetrqueue[i] == 2)) {
         tetrnumberdraw = 2;
         tetrdrawoffset = -20;
       }
-      if (tet_queue[i] == 3) {
+      if (tetrqueue[i] == 3) {
         tetrnumberdraw = 3;
         tetrdrawoffset = 0;
       }
-      if ((tet_queue[i] > 3) && (tet_queue[i] < 8)) {
+      if ((tetrqueue[i] > 3) && (tetrqueue[i] < 8)) {
         tetrnumberdraw = 4;
         tetrdrawoffset = -10;
       }
-      if ((tet_queue[i] == 8) || (tet_queue[i] == 9)) {
+      if ((tetrqueue[i] == 8) || (tetrqueue[i] == 9)) {
         tetrnumberdraw = 9;
         tetrdrawoffset = -10;
       }
-      if ((tet_queue[i] == 10) || (tet_queue[i] == 11)) {
+      if ((tetrqueue[i] == 10) || (tetrqueue[i] == 11)) {
         tetrnumberdraw = 11;
         tetrdrawoffset = -10;
       }
-      if ((tet_queue[i] > 11) && (tet_queue[i] < 16)) {
+      if ((tetrqueue[i] > 11) && (tetrqueue[i] < 16)) {
         tetrnumberdraw = 13;
         tetrdrawoffset = -10;
       }
-      if ((tet_queue[i] > 15) && (tet_queue[i] < 20)) {
+      if ((tetrqueue[i] > 15) && (tetrqueue[i] < 20)) {
         tetrnumberdraw = 19;
         tetrdrawoffset = -10;
       }
       for (int j = 1; j < 5; j++) {
-        chosecolorbreak(tet_queue[i]);
+        chosecolorbreak(tetrqueue[i]);
         pushMatrix();
         translate(500+tetrdrawoffset+20*breaktetrominos[tetrnumberdraw][j*2-1], i*80+20*breaktetrominos[tetrnumberdraw][j*2]);
         box(20,20,10);
@@ -168,21 +168,21 @@ void displaytetris() {
   textAlign(RIGHT);
   text("Speed", 540, 610);
   textAlign(LEFT);
-  text(30-tet_spd, 540, 640);
+  text(30-tetrspeed, 540, 640);
 
   textAlign(RIGHT);
-  text("livesLeft", 540, 680);
+  text("Lives", 540, 680);
   textAlign(LEFT);
-  text(livesLeft, 540, 710);
+  text(lives, 540, 710);
 }
 
 void displaybreakout() {
   fill(128, 128, 128);
   for (int i = 1; i < 31; i++) {
     for (int j = 1; j < 39; j++) {
-      if (break_area[j][i][9] > 0) {
+      if (breakfield[j][i][9] > 0) {
 
-        chosecolorbreak(break_area[j][i][9]);
+        chosecolorbreak(breakfield[j][i][9]);
         pushMatrix();
         translate(breakedgeleft+(j-1)*20+9, breakedgetop+(i-1)*20+9);
         box(19,19,10);
@@ -219,7 +219,7 @@ void displaybreakout() {
   pushMatrix();
   fill(128, 128, 128);
   translate(breakpadx, 700);
-  box(breakpadwidth, 15, 15);
+  box(breakpadwidth, 15, 15);  
   popMatrix();
 
 
@@ -235,13 +235,13 @@ void chosecolor(int col) {
   switch(col) {
   case 1:
     fill(0, 255, 255);
-    break;
+    break;  
   case 2:
     fill(127, 0, 255);
     break;
   case 3:
     fill(255, 128, 0);
-    break;
+    break;  
   case 4:
     fill(0, 0, 255);
     break;
@@ -250,7 +250,7 @@ void chosecolor(int col) {
     break;
   case 6:
     fill(255, 0, 0);
-    break;
+    break;  
   case 7:
     fill(255, 255, 0);
     break;
@@ -264,13 +264,13 @@ void chosecolorbreak(int col) {
   switch(col) {
   case 1:
     fill(0, 255, 255);
-    break;
+    break;  
   case 2:
     fill(0, 255, 255);
     break;
   case 3:
     fill(255, 255, 0);
-    break;
+    break;  
   case 4:
     fill(127, 0, 255);
     break;
@@ -279,7 +279,7 @@ void chosecolorbreak(int col) {
     break;
   case 6:
     fill(127, 0, 255);
-    break;
+    break;  
   case 7:
     fill(127, 0, 255);
     break;
@@ -287,13 +287,13 @@ void chosecolorbreak(int col) {
     fill(255, 0, 0);
     break;
   case 9:
-    fill(255, 0, 0);
+    fill(255, 0, 0);    
     break;
   case 10:
     fill(0, 255, 0);
     break;
   case 11:
-    fill(0, 255, 0);
+    fill(0, 255, 0);    
     break;
   case 12:
     fill(0, 0, 255);
@@ -359,7 +359,7 @@ void keyPressed() {
   }
   if (key == ' ') {
     drop = true;
-    tet_spd = tetrdropspeed;
+    tetrspeed = tetrdropspeed;
   }
   start = false;
   gameover = false;
